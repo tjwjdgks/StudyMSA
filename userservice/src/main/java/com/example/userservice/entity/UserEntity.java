@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,6 +19,8 @@ public class UserEntity {
     private Long id;
     private String email;
     private String name;
+
+    @Column(unique = true)
     private String userId;
     private String encryptedPwd;
     private LocalDateTime createdAt;
