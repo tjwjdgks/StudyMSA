@@ -34,6 +34,6 @@ public class UserEntity {
     }
 
     public static UserEntity createUser(UserDto userDto){
-        return new UserEntity(userDto.getEmail(), userDto.getName(),userDto.getUserId(), userDto.getEncrptedPwd(), LocalDateTime.now());
+        return new UserEntity(userDto.getEmail(), userDto.getName(),userDto.getUserId(), userDto.getEncryptedPwd(), LocalDateTime.now());
     }
 }

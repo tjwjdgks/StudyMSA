@@ -7,10 +7,14 @@ import com.example.userservice.vo.ResponseUser;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,10 +29,21 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(username);
+        if(userEntity == null){
+            throw new UsernameNotFoundException(username);
+        }
+        return new User(userEntity.getEmail(),userEntity.getEncryptedPwd(),new ArrayList<>());
+    }
+
     @Override
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
-        userDto.setEncrptedPwd(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setEncryptedPwd(passwordEncoder.encode(userDto.getPassword()));
         UserEntity user = UserEntity.createUser(userDto);
         UserEntity save = userRepository.save(user);
 
@@ -51,4 +66,13 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> all = userRepository.findAll();
         return all.stream().map(i->modelMapper.map(i,ResponseUser.class)).collect(toList());
     }
+
+    @Override
+    public UserDto getUserDetailsByEmail(String userName) {
+        UserEntity byEmail = userRepository.findByEmail(userName);
+        if(byEmail == null)
+            throw new UsernameNotFoundException("user 정보가 없습니다");
+        return modelMapper.map(byEmail, UserDto.class);
+    }
+
 }
