@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,19 @@ public class UserController {
 
     private final ModelMapper modelMapper;
     private final UserService userService;
-    private final ServletWebServerApplicationContext webServerApplicationContext;
+    private final Environment environment;
+    private final ServletWebServerApplicationContext webServerAppCxt;
     @Value("${greeting.message}")
     public String welcomeMessage;
 
     @GetMapping("/health-check")
     public String status(){
-        return "It's Working in User Service" + webServerApplicationContext.getWebServer().getPort();
+        return String.format("it's woring in user service"
+                + " port " + webServerAppCxt.getWebServer().getPort()
+                + " token secret " + environment.getProperty("token.secret")
+                + " token expire " + environment.getProperty("token.expiration_time"));
+
+
     }
 
     @GetMapping("/welcome")

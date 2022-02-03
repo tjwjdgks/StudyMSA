@@ -30,6 +30,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         //http.authorizeRequests().antMatchers("/h2-console/**").hasIpAddress("custom ip address"); // 허용 ip
         http.addFilter(getAuthenticationFilter());
