@@ -33,5 +33,5 @@ target/
 .vscode/
 
 ### properties ###
-*.properties
-*.yml
+configservice/src/main/resources/*.yml
+configservice/src/main/resources/*.properties
