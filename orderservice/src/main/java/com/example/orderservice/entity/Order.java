@@ -17,7 +17,7 @@ public class Order {
     @Id @GeneratedValue
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String productId;
 
     @Column(nullable = false)

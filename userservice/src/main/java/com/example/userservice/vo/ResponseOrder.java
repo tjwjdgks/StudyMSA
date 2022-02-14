@@ -1,7 +1,10 @@
 package com.example.userservice.vo;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class ResponseOrder extends ResponseDefault {
 
     private String productId;
