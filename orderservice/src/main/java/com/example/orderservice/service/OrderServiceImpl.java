@@ -1,5 +1,6 @@
 package com.example.orderservice.service;
 
+import com.example.orderservice.controller.OrderController;
 import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.entity.Order;
 import com.example.orderservice.repository.OrderRepository;
@@ -24,12 +25,15 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final ModelMapper mapper;
     @Override
-    public OrderDto createOrder(OrderDto orderDetails) {
+    public OrderDto createOrder(OrderDto orderDetails, int flag) {
         orderDetails.setOrderId(UUID.randomUUID().toString());
         orderDetails.setTotalPrice(orderDetails.getQty()* orderDetails.getUnitPrice()); // 수량 * unit price
 
         Order order = mapper.map(orderDetails, Order.class);
-        Order save = orderRepository.save(order);
+
+        if(OrderController.JPA == flag){
+            Order save = orderRepository.save(order);
+        }
         return mapper.map(order,OrderDto.class);
     }
 

@@ -13,12 +13,13 @@ public class ResponseCatalog {
     private String productName;
     private Integer unitPrice;
     private Integer totalPrice;
-
+    private int stock;
     @Builder
-    public ResponseCatalog(String productId, String productName, Integer unitPrice, Integer totalPrice) {
+    public ResponseCatalog(String productId, String productName, Integer unitPrice, Integer totalPrice,int stock) {
         this.productId = productId;
         this.productName = productName;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
+        this.stock = stock;
     }
 }

@@ -3,12 +3,14 @@ package com.example.catalogservice.entity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "catalog")
 @NoArgsConstructor
 public class CatalogEntity {

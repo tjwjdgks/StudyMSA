@@ -28,6 +28,7 @@ public class CatalogServiceImpl implements CatalogService {
         catalogEntities.forEach(c-> response
                 .add(ResponseCatalog.builder()
                         .productId(c.getProductId())
+                        .stock(c.getStock())
                         .productName(c.getProductName())
                         .unitPrice(c.getUnitPrice())
                         .build())

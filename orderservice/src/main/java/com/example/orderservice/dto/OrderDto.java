@@ -14,6 +14,4 @@ public class OrderDto {
 
     private String orderId;
     private String userId;
-    private LocalDateTime createdAt;
-
 }

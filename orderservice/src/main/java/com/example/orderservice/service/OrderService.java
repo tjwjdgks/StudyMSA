@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    OrderDto createOrder(OrderDto orderDetails);
+    OrderDto createOrder(OrderDto orderDetails, int flag);
     OrderDto getOrderByOrderId(String orderId);
     List<OrderDto> getOrdersByUserId(String userId);
 }
