@@ -7,6 +7,7 @@ import com.example.orderservice.messagequeue.KafkaProducer;
 import com.example.orderservice.messagequeue.OrderProducer;
 import com.example.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.context.WebServerApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @RestController
 @RequestMapping("/order-service")
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class OrderController {
     }
     @PostMapping("/{userId}/orders")
     public ResponseEntity<ResponseOrder> createOrder(@PathVariable("userId") String userId,@RequestBody RequestOrder orderDetails){
-
+        log.info("before add order data");
         OrderDto orderDto = mapper.map(orderDetails,OrderDto.class);
         orderDto.setUserId(userId);
 
@@ -47,18 +49,20 @@ public class OrderController {
         orderProducer.send("orders",orderDto);
 
         ResponseOrder responseOrder = mapper.map(createdOrderDto, ResponseOrder.class);
+        log.info("after add order data");
         return ResponseEntity.status(HttpStatus.OK).body(responseOrder);
     }
 
 
     @GetMapping("/{userId}/orders")
     public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable("userId") String userId) {
+        log.info("before retrieve order data");
         List<OrderDto> orders = orderService.getOrdersByUserId(userId);
 
         List<ResponseOrder> result = orders.stream()
                 .map(orderDto -> mapper.map(orderDto, ResponseOrder.class))
                 .collect(toList());
-
+        log.info("after retrieve order data");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

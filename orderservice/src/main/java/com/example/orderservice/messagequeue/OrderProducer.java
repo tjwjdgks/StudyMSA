@@ -25,7 +25,7 @@ public class OrderProducer {
             new Field("string", true, "order_id"),
             new Field("string", true, "user_id"),
             new Field("string", true, "product_id"),
-            new Field("int32", true, "product_id"),
+            new Field("int32", true, "qty"),
             new Field("int32",true,"total_price"),
             new Field("int32",true,"unit_price")
     );
