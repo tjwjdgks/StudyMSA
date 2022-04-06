@@ -5,6 +5,7 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.service.UserService;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ public class UserController {
     public String welcomeMessage;
 
     @GetMapping("/health-check")
+    @Timed(value = "users.status",longTask = true)
     public String status(){
         return String.format("it's woring in user service"
                 + " port " + webServerAppCxt.getWebServer().getPort()
@@ -38,6 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/welcome")
+    @Timed(value = "users.welcome",longTask = true)
     public String welcome(){
         return welcomeMessage;
     }
